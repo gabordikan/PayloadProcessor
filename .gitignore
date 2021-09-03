@@ -167,10 +167,9 @@ fabric.properties
 # Visual Studio Code settings
 .vscode
 
-
-
 ### PROJECT-SPECIFIC IGNORABLES ###
 applog.txt
 *.iml
 /bin
 .env
+
