@@ -5,4 +5,4 @@ if(requestData.report_type.toLowerCase().indexOf("clinical photograph") != -1) {
 } else {
 addRoutine('create_assessment_event');
 }
-//addRoutine(requestData.report_type.replace(/ /g, "_").replace("/", "_") + "_OCR");
+addRoutine(requestData.report_type.replace(/ /g, "_").replace("/", "_") + "_OCR");

@@ -184,5 +184,6 @@ public class DicomEngine {
     private static void initialisePatientSearchApi() {
         ApiConfig apiConfig = PatientSearchApiConfiguration.getApiConfig();
         PatientSearchApi.init(apiConfig);
+        BaseApi.init(apiConfig);
     }
 }

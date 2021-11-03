@@ -7,9 +7,9 @@ import java.io.File;
 
 public class PatientSearchApiConfiguration {
     private static String host = "localhost";
-    private static String port = "80";
-    private static String username = "admin";
-    private static String password = "admin";
+    private static String port = "7070";
+    private static String username = "api";
+    private static String password = "Password1!";
     private static Boolean do_https = false;
     private static ApiConfig apiConfig = null;
 

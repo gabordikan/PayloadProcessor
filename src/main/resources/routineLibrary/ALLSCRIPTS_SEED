@@ -1,0 +1,8 @@
+var requestData = bindTextObject('REQUEST_DATA');
+
+var data = getData(requestData.event_id);
+
+var eventData = bindTextObject('event_data');
+
+
+eventData.data = data;

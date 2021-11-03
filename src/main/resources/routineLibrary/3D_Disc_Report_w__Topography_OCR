@@ -1,11 +1,11 @@
 var requestData = bindTextObject('REQUEST_DATA');
 var attachmentPdf = getObject('event_pdf', requestData.bodySiteSnomed);
 var assessmentData = bindTextObject('ASSESSMENT_DATA');
-//assessmentData.avg_rnfl = readTextFromImage(attachmentPdf, 193 , 753 ,80 , 30);
-//assessmentData.crt = readTextFromImage(attachmentPdf, 1162 , 210 ,120 , 30);
-//assessmentData.avg_thickness = readTextFromImage(attachmentPdf, 1178 , 240 ,120 , 30);
-//assessmentData.total_vol = readTextFromImage(attachmentPdf, 1178 , 265 ,120 , 30);
-//assessmentData.cd_ratio = readTextFromImage(attachmentPdf, 1178 , 290 ,120 , 30);
-//assessmentData.cct = readTextFromImage(attachmentPdf, 1178 , 315 ,120 , 30);
+assessmentData.avg_rnfl = readTextFromImage(attachmentPdf, 193 , 753 ,80 , 30);
+assessmentData.crt = readTextFromImage(attachmentPdf, 1162 , 210 ,120 , 30);
+assessmentData.avg_thickness = readTextFromImage(attachmentPdf, 1178 , 240 ,120 , 30);
+assessmentData.total_vol = readTextFromImage(attachmentPdf, 1178 , 265 ,120 , 30);
+assessmentData.cd_ratio = readTextFromImage(attachmentPdf, 1178 , 290 ,120 , 30);
+assessmentData.cct = readTextFromImage(attachmentPdf, 1178 , 315 ,120 , 30);
 
 addRoutine('create_assessment_event');

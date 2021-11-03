@@ -1,7 +1,7 @@
 var requestData = bindTextObject('REQUEST_DATA');
 var dicomHeader = bindTextObject('DICOM_HEADER');
 
-requestData.gender = requestData.gender.substring(1,0);
+requestData.gender = "F";
 // Needs testing as i couldn't find any other header that could be used. Reading dicomFile could provide more information
 requestData.is_image = typeof dicomHeader['280004'] != "undefined";
 if(requestData.is_image) {

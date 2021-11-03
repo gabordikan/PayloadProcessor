@@ -9,6 +9,7 @@ import com.abehrdigital.payloadprocessor.models.*;
 import com.abehrdigital.payloadprocessor.models.Event;
 import com.abehrdigital.payloadprocessor.utils.*;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.auth.AuthenticationException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
@@ -30,6 +31,9 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -240,6 +244,17 @@ public class RoutineScriptService {
             throw new Exception("Patient was not found with Hospital number: " + hospitalNumber + StackTraceUtil.getStackTraceAsString(exception));
         }
         return patientId;
+    }
+
+    public String getData(String eventId) throws Exception {
+        String data;
+        try {
+            data = BaseApi.read(eventId);
+        } catch (Exception exception) {
+            throw new Exception("Error " + StackTraceUtil.getStackTraceAsString(exception));
+        }
+
+        return data;
     }
 
     public String getPatientId(String hospitalNumber, String patientIdentifierType) throws Exception {
