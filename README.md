@@ -2,7 +2,7 @@
 
 Java code for processing medical device files
 
-## Compilation
+## Compilation 
 
 To compile you'll need JDK version 1.8 or higher and Apache Maven
 
