@@ -11,10 +11,11 @@ import com.abehrdigital.payloadprocessor.models.ApiConfig;
 import com.abehrdigital.payloadprocessor.utils.*;
 import org.apache.commons.cli.*;
 import org.apache.commons.lang3.SystemUtils;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 import org.hibernate.cfg.Configuration;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DicomEngine {
@@ -46,7 +47,7 @@ public class DicomEngine {
         try {
             routineLibrarySynchronizer.sync();
         } catch (Exception synchronizeException) {
-            Logger.getLogger(DicomEngine.class.getName()).log(Level.WARNING,
+            LogManager.getLogger(DicomEngine.class.getName()).log(Level.DEBUG,
                     StackTraceUtil.getStackTraceAsString(synchronizeException)
             );
             System.exit(1);
@@ -67,16 +68,16 @@ public class DicomEngine {
                 }
                 throw new OrderlyExitSuccessException("Engine run was successful");
             } catch (RequestQueueMissingException queueMissingException) {
-                Logger.getLogger(DicomEngine.class.getName()).log(Level.SEVERE,
+                LogManager.getLogger(DicomEngine.class.getName()).log(Level.FATAL,
                         StackTraceUtil.getStackTraceAsString(queueMissingException));
                 break;
             } catch (OrderlyExitSuccessException successException) {
-                Logger.getLogger(DicomEngine.class.getName()).log(Level.SEVERE,
+                LogManager.getLogger(DicomEngine.class.getName()).log(Level.FATAL,
                         successException.toString());
             } catch (Exception exception) {
                 requestQueueExecutor.shutDown();
                 System.out.println(exception.getClass());
-                Logger.getLogger(DicomEngine.class.getName()).log(Level.SEVERE,
+                LogManager.getLogger(DicomEngine.class.getName()).log(Level.FATAL,
                         StackTraceUtil.getStackTraceAsString(exception));
             }
         }
@@ -89,7 +90,7 @@ public class DicomEngine {
         try {
             buildSessionFactory();
         } catch (ExceptionInInitializerError exception) {
-            Logger.getLogger(DicomEngine.class.getName()).log(Level.SEVERE,
+            LogManager.getLogger(DicomEngine.class.getName()).log(Level.FATAL,
                     StackTraceUtil.getStackTraceAsString(exception));
             System.exit(1);
         } catch (InterruptedException interruptedException) {

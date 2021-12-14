@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 
 public class RoutineScriptWrapperFunctions {
 
@@ -27,7 +27,7 @@ public class RoutineScriptWrapperFunctions {
             preScripts += readFromInputStream(preScriptInputStream);
             postScripts = readFromInputStream(postScriptInputStream);
         } catch (IOException exception) {
-            Logger.getLogger(DicomEngine.class.getName()).log(Level.SEVERE,
+            LogManager.getLogger(DicomEngine.class.getName()).log(Level.FATAL,
                     StackTraceUtil.getStackTraceAsString(exception));
         }
     }

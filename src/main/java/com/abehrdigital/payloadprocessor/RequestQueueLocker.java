@@ -11,8 +11,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 
 import static com.abehrdigital.payloadprocessor.utils.StackTraceUtil.getStackTraceAsString;
 
@@ -75,10 +75,8 @@ public class RequestQueueLocker {
     }
 
     private void lockingFailed() throws Exception {
-        Logger.getLogger(RequestQueueLocker.class.getName()).log(Level.SEVERE,
-                null,
-                "Queue Name " + requestQueueName
-                        + " failed");
+        LogManager.getLogger(RequestQueueLocker.class.getName()).log(Level.FATAL,
+                "Queue Name " + requestQueueName + " failed");
         throw new Exception("Lock failed for RequestQueue: " + requestQueueName);
     }
 
@@ -86,7 +84,7 @@ public class RequestQueueLocker {
         try {
             TimeUnit.SECONDS.sleep(FIVE_SECONDS);
         } catch (InterruptedException exception) {
-            Logger.getLogger(RequestQueueLocker.class.getName()).log(Level.SEVERE, getStackTraceAsString(exception));
+            LogManager.getLogger(RequestQueueLocker.class.getName()).log(Level.FATAL, getStackTraceAsString(exception));
         }
     }
 

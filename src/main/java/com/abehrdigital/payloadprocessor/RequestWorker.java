@@ -6,11 +6,10 @@ import com.abehrdigital.payloadprocessor.models.RequestRoutineExecution;
 import com.abehrdigital.payloadprocessor.utils.DaoFactory;
 import com.abehrdigital.payloadprocessor.utils.RoutineScriptAccessor;
 import com.abehrdigital.payloadprocessor.utils.Status;
-
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 import javax.persistence.OptimisticLockException;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static com.abehrdigital.payloadprocessor.utils.StackTraceUtil.getStackTraceAsString;
 
@@ -59,7 +58,7 @@ public class RequestWorker implements Runnable {
                 }
             }
         } catch (Exception exception) {
-            Logger.getLogger(RequestWorker.class.getName()).log(Level.SEVERE, exception.toString());
+            LogManager.getLogger(RequestWorker.class.getName()).log(Level.FATAL, exception.toString());
         } finally {
             service.shutDown();
             threadListener.deQueue(requestId, successfulRoutineCount, failedRoutineCount);
@@ -91,7 +90,7 @@ public class RequestWorker implements Runnable {
             logMessage += getStackTraceAsString(lockException);
         } catch (Exception exception) {
             service.rollback();
-            Logger.getLogger(RequestWorker.class.getName()).log(Level.SEVERE,
+            LogManager.getLogger(RequestWorker.class.getName()).log(Level.FATAL,
                     "REQUEST WORKER EXCEPTION WHEN EVALUATING JAVASCRIPT ->  " + getStackTraceAsString(exception));
             logMessage += getStackTraceAsString(exception);
             routineForProcessing.updateFieldsByStatus(Status.FAILED);
@@ -114,7 +113,7 @@ public class RequestWorker implements Runnable {
             service.commit();
         } catch (Exception exception) {
             service.rollback();
-            Logger.getLogger(RequestWorker.class.getName(), getStackTraceAsString(exception));
+            LogManager.getLogger(RequestWorker.class.getName()).error(getStackTraceAsString(exception));
         }
     }
 

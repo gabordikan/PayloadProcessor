@@ -1,6 +1,7 @@
 package com.abehrdigital.payloadprocessor.utils;
 
-import org.jboss.logging.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 
 public class EnvironmentVariableUtils {
     public static String getEnvironmentVariableReturnNullIfDoesntExist(String name) {
@@ -9,7 +10,7 @@ public class EnvironmentVariableUtils {
         try {
             environmentVariable = System.getenv(name);
         } catch (Exception exception) {
-            Logger.getLogger(EnvironmentVariableUtils.class).log(Logger.Level.WARN , exception);
+            LogManager.getLogger(EnvironmentVariableUtils.class).log(Level.WARN , exception);
             environmentVariable = null;
         }
 

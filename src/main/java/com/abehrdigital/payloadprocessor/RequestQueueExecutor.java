@@ -13,13 +13,13 @@ import com.abehrdigital.payloadprocessor.utils.DaoFactory;
 import com.abehrdigital.payloadprocessor.utils.RoutineScriptAccessor;
 import com.abehrdigital.payloadprocessor.utils.StackTraceUtil;
 import org.hibernate.LockMode;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author admin
@@ -98,7 +98,7 @@ public class RequestQueueExecutor implements RequestThreadListener {
             throw queueMissingException;
         } catch (Exception exception) {
             daoManager.rollback();
-            Logger.getLogger(RequestQueueExecutor.class.getName()).log(Level.SEVERE,
+            LogManager.getLogger(RequestQueueExecutor.class.getName()).log(Level.FATAL,
                     exception.toString() + " Executor exception");
             exception.printStackTrace();
             throw exception;
