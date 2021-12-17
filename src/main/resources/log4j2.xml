@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="Appender1" target="SYSTEM_OUT">
+            <PatternLayout pattern="%-7p %d [%t] %c %x - %m%n"/>
+        </Console>
+
+        <File name="Appender2" fileName="applog.txt">
+            <PatternLayout pattern="%-7p %d [%t] %c %x - %m%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Appender1"/>
+            <AppenderRef ref="Appender2"/>
+        </Root>
+    </Loggers>
+</Configuration>
