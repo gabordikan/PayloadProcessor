@@ -1,8 +1,9 @@
 var requestData = bindTextObject('REQUEST_DATA');
 
+addRoutine(requestData.report_type.replace(/ /g, "_").replace("/", "_") + "_OCR");
+
 if(requestData.report_type.toLowerCase().indexOf("clinical photograph") != -1) {
  addRoutine('create_image_event')
 } else {
 addRoutine('create_assessment_event');
 }
-//addRoutine(requestData.report_type.replace(/ /g, "_").replace("/", "_") + "_OCR");
