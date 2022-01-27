@@ -80,8 +80,8 @@ ENV WAIT_SLEEP_INTERVAL=2
 # Copy compiled files
 COPY --from=builder ${PROJROOT}/target/ ${PROJROOT}
 COPY --from=builder ${PROJROOT}/src/main/resources/routineLibrary/ /routineLibrary
-RUN mkdir -p /tessdata
-RUN curl -o /tessdata/eng.traineddata -LJO https://github.com/tesseract-ocr/tessdata/raw/master/eng.traineddata
+RUN mkdir -p /tessdata \
+    && curl -o /tessdata/eng.traineddata -LJO https://github.com/tesseract-ocr/tessdata/raw/main/eng.traineddata
 
 # Add the init script
 COPY .docker_build/init.sh /init.sh

@@ -1,4 +1,12 @@
 var requestData = bindTextObject('REQUEST_DATA');
 var attachmentPdf = getObject('event_pdf', requestData.bodySiteSnomed);
 requestData.report_type = readTextFromImage(attachmentPdf, 0 , 0 ,400 , 65);
+var assessmentData = bindTextObject('ASSESSMENT_DATA');
+var abac_json = bindTextObject('ABAC_JSON');
+abac_json['medical_retina_confirm_section_checkbox'] = 0;
+
+assessmentData.total_vol = readTextFromImage(attachmentPdf, 1036 , 490 ,80 , 30,"^\\d+(\\.\\d+)?$");
+assessmentData.crt = readTextFromImage(attachmentPdf, 1047 , 469 ,80 , 30,"^\\d+(\\.\\d+)?$");
+assessmentData.avg_thickness = readTextFromImage(attachmentPdf, 1047 , 444 ,80 , 30,"^\\d+(\\.\\d+)?$");
+
 addRoutine('create_assessment_event');

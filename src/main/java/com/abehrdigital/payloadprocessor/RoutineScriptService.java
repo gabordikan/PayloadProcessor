@@ -342,11 +342,12 @@ public class RoutineScriptService {
     public String readTextFromImage(BufferedImage image, int x, int y, int width, int height, String regex) throws Exception {
         Rectangle rectangle = new Rectangle(x, y, width, height);
         ImageTextExtractor imageTextExtractor = new ImageTextExtractor();
-        String extractedText = imageTextExtractor.read(image, rectangle);
+        String extractedText = imageTextExtractor.read(image, rectangle).trim();
+
         if (extractedText.matches(regex)) {
             return extractedText;
         } else {
-            throw new Exception("Regex doesn't match for (" + extractedText + " ) Regex (" + regex + ")");
+            throw new Exception("Regex doesn't match for (" + extractedText + ") Regex " + regex);
         }
     }
 
