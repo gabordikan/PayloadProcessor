@@ -170,7 +170,7 @@ public class PatientSearchApi {
             }
         }};
         // Install the all-trusting trust manager
-        final SSLContext sslContext = SSLContext.getInstance("SSL");
+        final SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
         sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
         HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
         // Create all-trusting host name verifier

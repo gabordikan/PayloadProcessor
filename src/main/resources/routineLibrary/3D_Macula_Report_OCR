@@ -1,12 +1,54 @@
 var requestData = bindTextObject('REQUEST_DATA');
 var attachmentPdf = getObject('event_pdf', requestData.bodySiteSnomed);
-requestData.report_type = readTextFromImage(attachmentPdf, 0 , 0 ,400 , 65);
 var assessmentData = bindTextObject('ASSESSMENT_DATA');
 var abac_json = bindTextObject('ABAC_JSON');
-abac_json['medical_retina_confirm_section_checkbox'] = 0;
+var atLeastOneValueRead = false;
 
-assessmentData.total_vol = readTextFromImage(attachmentPdf, 1036 , 490 ,80 , 30,"^\\d+(\\.\\d+)?$");
-assessmentData.crt = readTextFromImage(attachmentPdf, 1047 , 469 ,80 , 30,"^\\d+(\\.\\d+)?$");
-assessmentData.avg_thickness = readTextFromImage(attachmentPdf, 1047 , 444 ,80 , 30,"^\\d+(\\.\\d+)?$");
+
+try {
+assessmentData.total_vol = readTextFromImage(attachmentPdf, 1306 , 490 ,80 , 32,"^\\d+(\\.\\d+)?$");
+atLeastOneValueRead = true;
+} catch (error) {
+    print(error);
+
+    try {
+    assessmentData.total_vol = readTextFromImage(attachmentPdf, 840 , 1020 ,80 , 32,"^\\d+(\\.\\d+)?$");
+    atLeastOneValueRead = true;
+    } catch (error) {
+        print(error);
+    }
+}
+
+
+try {
+assessmentData.crt = readTextFromImage(attachmentPdf, 1407 , 469 ,80 , 32,"^\\d+(\\.\\d+)?$");
+atLeastOneValueRead = true;
+} catch (error) {
+    print(error);
+     try {
+        assessmentData.crt = readTextFromImage(attachmentPdf, 840 , 1053 ,80 , 32,"^\\d+(\\.\\d+)?$");
+        atLeastOneValueRead = true;
+        } catch (error) {
+            print(error);
+        }
+}
+
+try {
+assessmentData.avg_thickness = readTextFromImage(attachmentPdf, 1407 , 444 ,80 , 32,"^\\d+(\\.\\d+)?$");
+atLeastOneValueRead = true;
+} catch (error) {
+    print(error);
+     try {
+        assessmentData.avg_thickness = readTextFromImage(attachmentPdf, 840 , 1089 ,80 , 32,"^\\d+(\\.\\d+)?$");
+        atLeastOneValueRead = true;
+        } catch (error) {
+            print(error);
+        }
+}
+
+if(atLeastOneValueRead) {
+abac_json['medical_retina_confirm_section_checkbox'] = 0;
+}
+
 
 addRoutine('create_assessment_event');
