@@ -6,13 +6,13 @@ var atLeastOneValueRead = false;
 
 
 try {
-assessmentData.total_vol = readTextFromImage(attachmentPdf, 1306 , 490 ,80 , 32,"^\\d+(\\.\\d+)?$");
+assessmentData.avg_thickness = readTextFromImage(attachmentPdf, 1306 , 490 ,80 , 32,"^\\d+(\\.\\d+)?$");
 atLeastOneValueRead = true;
 } catch (error) {
     print(error);
 
     try {
-    assessmentData.total_vol = readTextFromImage(attachmentPdf, 840 , 1020 ,80 , 32,"^\\d+(\\.\\d+)?$");
+    assessmentData.avg_thickness = readTextFromImage(attachmentPdf, 840 , 1020 ,80 , 32,"^\\d+(\\.\\d+)?$");
     atLeastOneValueRead = true;
     } catch (error) {
         print(error);
@@ -34,12 +34,12 @@ atLeastOneValueRead = true;
 }
 
 try {
-assessmentData.avg_thickness = readTextFromImage(attachmentPdf, 1407 , 444 ,80 , 32,"^\\d+(\\.\\d+)?$");
+assessmentData.total_vol = readTextFromImage(attachmentPdf, 1407 , 444 ,80 , 32,"^\\d+(\\.\\d+)?$");
 atLeastOneValueRead = true;
 } catch (error) {
     print(error);
      try {
-        assessmentData.avg_thickness = readTextFromImage(attachmentPdf, 840 , 1089 ,80 , 32,"^\\d+(\\.\\d+)?$");
+        assessmentData.total_vol = readTextFromImage(attachmentPdf, 840 , 1089 ,80 , 32,"^\\d+(\\.\\d+)?$");
         atLeastOneValueRead = true;
         } catch (error) {
             print(error);
