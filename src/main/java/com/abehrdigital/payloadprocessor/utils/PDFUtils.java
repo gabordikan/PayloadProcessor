@@ -64,7 +64,7 @@ public class PDFUtils {
         return page.getMediaBox().getHeight();
     }
 
-    public static String getTextFromRectangle(double x, double y, byte[] pdf) throws IOException {
+    public static String getTextFromCoordinate(double x, double y, byte[] pdf) throws IOException {
         PDDocument document = PDDocument.load(pdf);
         PdfTextWithCoordinatesStripper stripper = new PdfTextWithCoordinatesStripper();
         stripper.setSortByPosition(true);
