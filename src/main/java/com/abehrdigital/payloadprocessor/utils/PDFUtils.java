@@ -64,12 +64,15 @@ public class PDFUtils {
         return page.getMediaBox().getHeight();
     }
 
-    public static String getTextFromCoordinate(double x, double y, byte[] pdf) throws IOException {
+    public static String getTextFromCoordinate(double x, double y, byte[] pdf, int pageNumber) throws IOException {
         PDDocument document = PDDocument.load(pdf);
         PdfTextWithCoordinatesStripper stripper = new PdfTextWithCoordinatesStripper();
         stripper.setSortByPosition(true);
-        stripper.setStartPage(0);
-        stripper.setEndPage(document.getNumberOfPages());
+
+        if(pageNumber != 0) {
+            stripper.setStartPage(pageNumber);
+            stripper.setEndPage(pageNumber);
+        }
 
         Writer dummy = new OutputStreamWriter(new ByteArrayOutputStream());
         stripper.writeText(document, dummy);
