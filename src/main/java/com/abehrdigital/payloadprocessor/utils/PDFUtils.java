@@ -1,5 +1,7 @@
 package com.abehrdigital.payloadprocessor.utils;
 
+import com.abehrdigital.payloadprocessor.models.PdfTextWithCoordinates;
+import com.abehrdigital.payloadprocessor.models.PdfTextWithCoordinatesStripper;
 import org.apache.pdfbox.io.RandomAccessBuffer;
 import org.apache.pdfbox.io.RandomAccessRead;
 import org.apache.pdfbox.pdfparser.PDFParser;
@@ -9,7 +11,7 @@ import org.apache.pdfbox.text.PDFTextStripperByArea;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
 
@@ -32,7 +34,16 @@ public class PDFUtils {
 
     public static PDDocument extractPdfDocumentFromBlob(Blob binaryBlop) throws SQLException, IOException {
         int blopLength = (int) binaryBlop.length();
-        return extractPdfDocumentFromBytes(binaryBlop.getBytes(1,blopLength));
+        return extractPdfDocumentFromBytes(binaryBlop.getBytes(1, blopLength));
+    }
+
+    public static byte[] extractByteArrayFromBlop(Blob binaryBlop) throws SQLException {
+        int blopLength = (int) binaryBlop.length();
+        return binaryBlop.getBytes(1, blopLength);
+    }
+
+    public static PDDocument extractPdfDocumentFromBlob(byte[] binaryBlop) throws SQLException, IOException {
+        return extractPdfDocumentFromBytes(binaryBlop);
     }
 
     public static void savePdf(PDDocument pdf, String filepath) {
@@ -53,15 +64,22 @@ public class PDFUtils {
         return page.getMediaBox().getHeight();
     }
 
-    //would be better if this just took two diffrent coordinate points (upperLeft and lowerRight)
-    //or maybe just take rectangle, page, and textstripper
-    public static String getTextFromRectangle(double upperLeftX, double upperLeftY, double width, double height, PDPage page) throws IOException {
-        PDFTextStripperByArea stripper = new PDFTextStripperByArea(); //we only need 1, maybe move outside method
-        Rectangle2D region = new Rectangle.Double(upperLeftX, upperLeftY, width, height);
-        String regionName = "testRegion";
-        stripper.addRegion(regionName, region);
-        stripper.extractRegions(page);
+    public static String getTextFromRectangle(double x, double y, byte[] pdf) throws IOException {
+        PDDocument document = PDDocument.load(pdf);
+        PdfTextWithCoordinatesStripper stripper = new PdfTextWithCoordinatesStripper();
+        stripper.setSortByPosition(true);
+        stripper.setStartPage(0);
+        stripper.setEndPage(document.getNumberOfPages());
 
-        return stripper.getTextForRegion("testRegion");
+        Writer dummy = new OutputStreamWriter(new ByteArrayOutputStream());
+        stripper.writeText(document, dummy);
+
+        for (PdfTextWithCoordinates pdfTextWithCoordinates : stripper.pdfTextsWithCoordinates) {
+            if (pdfTextWithCoordinates.coordinatesMatchText(x, y)) {
+                return pdfTextWithCoordinates.getText();
+            }
+        }
+
+        return null;
     }
 }
