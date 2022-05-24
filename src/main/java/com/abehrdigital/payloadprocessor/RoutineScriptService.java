@@ -358,6 +358,16 @@ public class RoutineScriptService {
         return readTextFromImage(image, x, y, width, height, ".*");
     }
 
+    public String readTextFromPdfScraping(Blob pdfBlob, int x, int y) throws Exception {
+        byte[] pdfDocument = PDFUtils.extractByteArrayFromBlop(pdfBlob);
+        return PDFUtils.getTextFromCoordinate(x, y, pdfDocument,0);
+    }
+
+    public String readTextFromPdfScraping(Blob pdfBlob, int x, int y, int pageNumber) throws Exception {
+        byte[] pdfDocument = PDFUtils.extractByteArrayFromBlop(pdfBlob);
+        return PDFUtils.getTextFromCoordinate(x, y, pdfDocument,pageNumber);
+    }
+
     public boolean attachmentsContentAreEqual(AttachmentData attachmentData, int attachmentDataIdToCompare) throws SQLException {
         int firstHashCode = attachmentData.getHashCode();
         AttachmentData attachmentData1 = daoManager.getAttachmentDataDao().get(attachmentDataIdToCompare);
