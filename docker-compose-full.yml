@@ -12,9 +12,6 @@ services:
       DATABASE_PASS: "${DATABASE_PASS:-openeyes}"
       WAIT_HOSTS: "web:80"
       WAIT_HOSTS_TIMEOUT: 3000
-
-    secrets:
-      - source: SSH_PRIVATE_KEY
     stdin_open: true
     tty: true
     depends_on:

@@ -79,10 +79,6 @@ public class Study {
         PDFUtils.savePdf(pdfDoc, filepath);
     }
 
-    public String extractTextFromPage(double x1, double x2, double x3, double x4, int pageIndex) throws IOException {
-        return PDFUtils.getTextFromRectangle(x1, x2, x3, x4, pdfDoc.getPage(pageIndex));
-    }
-
     // for testing - do not use in final project
     // TODO: consider using Linked HashMap to maintain order
     public String dumpData() {
