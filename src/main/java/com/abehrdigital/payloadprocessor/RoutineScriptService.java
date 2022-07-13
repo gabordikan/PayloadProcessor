@@ -363,9 +363,17 @@ public class RoutineScriptService {
         return PDFUtils.getTextFromCoordinate(x, y, pdfDocument,0);
     }
 
+    public String readTextFromPdfScraping(AttachmentData attachmentData, int x, int y) throws Exception {
+        return readTextFromPdfScraping(attachmentData.getBlobData(), x , y);
+    }
+
     public String readTextFromPdfScraping(Blob pdfBlob, int x, int y, int pageNumber) throws Exception {
         byte[] pdfDocument = PDFUtils.extractByteArrayFromBlop(pdfBlob);
         return PDFUtils.getTextFromCoordinate(x, y, pdfDocument,pageNumber);
+    }
+
+    public String readTextFromPdfScraping(AttachmentData attachmentData, int x, int y, int pageNumber) throws Exception {
+        return readTextFromPdfScraping(attachmentData.getBlobData(), x , y, pageNumber);
     }
 
     public boolean attachmentsContentAreEqual(AttachmentData attachmentData, int attachmentDataIdToCompare) throws SQLException {
