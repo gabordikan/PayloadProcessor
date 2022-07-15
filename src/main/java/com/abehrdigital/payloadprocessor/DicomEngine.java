@@ -73,7 +73,7 @@ public class DicomEngine {
             } catch (OrderlyExitSuccessException successException) {
                 Logger.getLogger(DicomEngine.class.getName()).log(Level.SEVERE,
                         successException.toString());
-            } catch (Exception exception) {
+            } catch (Exception | Error exception) {
                 requestQueueExecutor.shutDown();
                 System.out.println(exception.getClass());
                 Logger.getLogger(DicomEngine.class.getName()).log(Level.SEVERE,

@@ -89,15 +89,19 @@ public class RequestWorker implements Runnable {
             // so we leave it as it is and it will run again if it has the right conditions
             service.rollback();
             logMessage += getStackTraceAsString(lockException);
-        } catch (Exception exception) {
-            service.rollback();
-            Logger.getLogger(RequestWorker.class.getName()).log(Level.SEVERE,
-                    "REQUEST WORKER EXCEPTION WHEN EVALUATING JAVASCRIPT ->  " + getStackTraceAsString(exception));
-            logMessage += getStackTraceAsString(exception);
-            routineForProcessing.updateFieldsByStatus(Status.FAILED);
+        } catch (Exception | Error exception) {
+            processWorkerError(routineForProcessing,  getStackTraceAsString(exception));
         }
 
         return logMessage;
+    }
+
+    private void processWorkerError(RequestRoutine routineForProcessing, String stackTraceAsString) {
+        service.rollback();
+        Logger.getLogger(RequestWorker.class.getName()).log(Level.SEVERE,
+                "REQUEST WORKER ERROR WHEN EVALUATING JAVASCRIPT ->  " + stackTraceAsString);
+        logMessage += stackTraceAsString;
+        routineForProcessing.updateFieldsByStatus(Status.FAILED);
     }
 
     private void evaluateRoutineScriptExecution(String logMessage, RequestRoutine routineForProcessing) {
