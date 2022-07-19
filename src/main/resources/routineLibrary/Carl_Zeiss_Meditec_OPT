@@ -3,3 +3,8 @@ addRoutine('GENERIC_EXTRACT_PDF');
 addRoutine('GENERIC_PAS_API');
 addRoutine('create_assessment_event');
 requestData.validate_manufacturer_model_name_for_previous_event = true;
+
+requestData.report_type = requestData.series_description;
+requestData.event_subtype =  requestData.series_description;
+
+requestData.study_instance_uid = requestData.study_instance_uid + "_" + requestData.report_type;
