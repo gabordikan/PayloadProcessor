@@ -1,0 +1,10 @@
+var requestData = bindTextObject('REQUEST_DATA');
+
+requestData.report_type = "Corneal Endothelial Cell Count";
+requestData.event_subtype = "Corneal Endothelial Cell Count";
+
+addRoutine('GENERIC_EXTRACT_IMAGE');
+addRoutine('EXTRACT_LATERALITY_KONAN');
+addRoutine('GENERIC_PAS_API');
+addRoutine('GENERIC_EVENT_DEVICE_INFORMATION_AUGMENT');
+addRoutine('create_event');
