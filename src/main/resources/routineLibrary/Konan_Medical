@@ -1,0 +1,6 @@
+var requestData = bindTextObject('REQUEST_DATA');
+addRoutine('Konan_Medical_' + requestData.modality);
+requestData.do_not_throw_validation_error_if_laterality_missing_upon_extraction = true;
+if(typeof requestData.study_time === "undefined") {
+    requestData.study_time = "000000";
+}

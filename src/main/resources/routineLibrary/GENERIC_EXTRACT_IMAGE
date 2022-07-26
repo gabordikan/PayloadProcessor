@@ -2,23 +2,36 @@ var requestData = bindTextObject('REQUEST_DATA');
 var dicomObject = getDicom('REQUEST_BLOB');
 var dicomHeader = bindTextObject('DICOM_HEADER', null, null, null, null, dicomObject.getHeaderJsonString());
 
-
-//IF( REQUESTDATA.ATTACHMENT TYPE != FALSE  OR UNDEFINED OR NOT EMPTY STRING){
-//     NEW error ( attachment type NOT EXSISTS);
-// }
-
 var laterality;
+
 if(typeof requestData.laterality != "undefined") {
     laterality = requestData.laterality;
 } else if (typeof requestData.image_laterality != "undefined") {
     laterality = requestData.image_laterality;
 }
 
+//Lookup Laterality
+if(requestData.manufacturer === "Konan Medical") {
+     var rightEye = readTextFromImage(dicomObject.getImageAsBlob(), 8,120,60, 60);
+
+     var leftEye = readTextFromImage(dicomObject.getImageAsBlob(), 963,127,60, 60);
+
+     if(rightEye !== "" || leftEye !== "") {
+        if(rightEye === "oD" && leftEye === "0os") {
+            laterality = "B";
+        } else if(rightEye === "oD") {
+            laterality = "R";
+        } else if( leftEye === "0os") {
+            laterality = "L";
+        }
+     }
+}
+
 if(typeof laterality == "undefined") {
     laterality = readTextFromImage(dicomObject.getImageAsBlob(), 87,139,14, 20, "(.*(L|B|R).*)");
     requestData.laterality = laterality;
 }
-//Lookup Laterality
+
 if (laterality == 'L') {
     requestData.bodySiteSnomed = 8966001;
     requestData.eyeId = 1;
@@ -31,9 +44,8 @@ if (laterality == 'L') {
 } else {
     throw new Error('Unknown laterality has been found : LATERALITY: ' + requestData.laterality + " IMAGE_LATERALITY: " + requestData.image_laterality);
 }
-// ADD MODALITY CODE FROM REQUEST DATA
-//Get PDF from Dicom and Save
-//attachment_type = requestDATA.ATTACHMENT_TYPE
+
+//Get Image from Dicom and Save
 var blob;
 if (typeof requestData.image_derivation_description == "undefined" ){
     blob = dicomObject.getImageAsBlob();

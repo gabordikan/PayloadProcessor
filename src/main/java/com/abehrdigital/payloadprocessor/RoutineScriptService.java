@@ -333,6 +333,17 @@ public class RoutineScriptService {
         return readTextFromImage(imageBlob, x, y, width, height, ".*");
     }
 
+    /**
+     * X and Y is the top left coordinates of the box that is being extracted
+     * @param imageBlob
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param regex
+     * @return
+     * @throws Exception
+     */
     public String readTextFromImage(Blob imageBlob, int x, int y, int width, int height, String regex) throws Exception {
         InputStream blobBinaryStream = imageBlob.getBinaryStream();
         BufferedImage image = ImageIO.read(blobBinaryStream);
