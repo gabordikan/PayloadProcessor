@@ -5,10 +5,9 @@ import com.abehrdigital.payloadprocessor.utils.PDFUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.pdfbox.pdmodel.PDDocument;
-
 import org.dcm4che3.data.Sequence;
-import javax.sql.rowset.serial.SerialBlob;
 
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -25,6 +24,7 @@ public class Study {
     private Map<Integer, Sequence> sequenceDicomElements;
 
     private static final String IMAGE_TYPE_FOR_MANUAL_EXTRACTION = "IJG (jpeg-6b) library with lossless patch";
+    private static final String FILE_DESCRIPTION_FOR_MANUAL_EXTRACTION = "OphthalmicPhotography8BitImage";
 
     public Study() {
 
@@ -48,7 +48,8 @@ public class Study {
     }
 
     public SerialBlob getImageAsBlob(String imageDerivationDescription) throws SQLException, IOException {
-        if(imageDerivationDescription.equals(IMAGE_TYPE_FOR_MANUAL_EXTRACTION)) {
+        if(imageDerivationDescription.equals(IMAGE_TYPE_FOR_MANUAL_EXTRACTION) ||
+                imageDerivationDescription.equals(FILE_DESCRIPTION_FOR_MANUAL_EXTRACTION)) {
             return new SerialBlob(attachmentBytes);
         } else {
             return getImageAsBlob();
