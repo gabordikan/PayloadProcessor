@@ -8,7 +8,7 @@ import org.dcm4che3.io.DicomInputStream;
 import org.dcm4che3.util.TagUtils;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -22,6 +22,8 @@ public class DicomParser {
     private byte[] attachmentBytes;
     private static final int MAXIMUM_SIMPLE_ELEMENT_BYTE_LENGTH = 1000;
     private static final String IMAGE_TYPE_FOR_MANUAL_EXTRACTION = "IJG (jpeg-6b) library with lossless patch";
+    private static final int FILE_DESCRIPTION_TAG = 570494976;
+    private static final String FILE_DESCRIPTION_FOR_MANUAL_EXTRACTION = "OphthalmicPhotography8BitImage";
 
 
     public DicomParser(Blob dicomBlob, Study study) throws Exception {
@@ -45,8 +47,13 @@ public class DicomParser {
                 try {
                     valueAsByte = (byte[]) attributes.getValue(tag); //casted because getValue() returns Object
                     if (tag == Tag.DerivationDescription) {
-                        String value = new String(valueAsByte, Charset.forName("UTF-8")).trim();
+                        String value = new String(valueAsByte, StandardCharsets.UTF_8).trim();
                         if (value.equals(IMAGE_TYPE_FOR_MANUAL_EXTRACTION)) {
+                            manualPixelDataExtractionRequired = true;
+                        }
+                    } else if(tag == FILE_DESCRIPTION_TAG) {
+                        String value = new String(valueAsByte, StandardCharsets.UTF_8).trim();
+                        if(value.equals(FILE_DESCRIPTION_FOR_MANUAL_EXTRACTION)) {
                             manualPixelDataExtractionRequired = true;
                         }
                     }
@@ -56,7 +63,7 @@ public class DicomParser {
                 }
 
                 if (valueAsByte.length < MAXIMUM_SIMPLE_ELEMENT_BYTE_LENGTH) {
-                    String value = new String(valueAsByte, Charset.forName("UTF-8"));
+                    String value = new String(valueAsByte, StandardCharsets.UTF_8);
                     elements.put(Integer.toHexString(tag), value.trim());
                 }
             } else {

@@ -1,0 +1,2 @@
+print('Cant process image');
+addPriorityRoutine('GENERIC_BLOB_NOT_READABLE_CLEAN_UP');

@@ -1,3 +1,10 @@
+var requestData = bindTextObject('REQUEST_DATA');
+requestData.report_type = "Fundus Images";
+
+if(requestData.file_description == 'OphthalmicPhotography8BitImage') {
+ requestData.image_derivation_description = requestData.file_description;
+}
+
 addRoutine('GENERIC_EXTRACT_IMAGE');
 addRoutine('GENERIC_PAS_API');
 addRoutine('GENERIC_EVENT_DEVICE_INFORMATION_AUGMENT');
