@@ -50,5 +50,8 @@ if(atLeastOneValueRead) {
 abac_json['medical_retina_confirm_section_checkbox'] = 0;
 }
 
+assessmentData.total_vol = correctOcrNumberDecimalPlace(assessmentData.total_vol, 100,2);
+assessmentData.avg_thickness = correctOcrNumberDecimalPlace(assessmentData.avg_thickness, 1000,1);
+
 
 addRoutine('create_assessment_event');

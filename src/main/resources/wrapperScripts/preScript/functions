@@ -349,3 +349,18 @@ function modifyObjectValue(object, newObject) {
     object[key] = newObject[key];
   });
 }
+
+function correctOcrNumberDecimalPlace(number, threshold, decimal_places) {
+    if(typeof number != "undefined" && number >= threshold) {
+        var divisor = 1;
+
+        for(var index = 0; index < decimal_places; index++) {
+            divisor = divisor * 10;
+        }
+
+       return number / divisor;
+
+    } else {
+        return number;
+    }
+}
