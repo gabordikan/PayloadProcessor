@@ -170,7 +170,7 @@ Note that the following variables support docker secrets, which should be consid
 * `API_USER`
 * `API_PASSWORD`
 * `DATABASE_USER`
-* `DATABASE_PASSWORD`
+* `DATABASE_PASS`
 
 ### Docker Compose
 A sample docker-compose.yml file is provided in the project root.
