@@ -15,7 +15,8 @@ public class EpisodeDao {
         NativeQuery query = session.createSQLQuery("" +
                 "SELECT *" +
                 " FROM episode ep " +
-                "WHERE ep.patient_id = :patientId ")
+                "WHERE ep.patient_id = :patientId " +
+                " AND (ep.change_tracker = 0 OR ep.change_tracker is null) ")
                 .setParameter("patientId", patientId);
         return query.getResultList();
     }

@@ -78,7 +78,7 @@ if (patientHasEpisodes(requestData.patientId)) {
                         $$_PARAMETERS_$$: [
                             '$$_patient[1].id_$$'
                         ],
-                        $$_SQL_$$: '(SELECT ep.id FROM openeyes.`episode` ep JOIN openeyes.`event` ev ON ev.`episode_id` = ep.`id` WHERE ep.`patient_id` = $$_patient[1].id_$$ AND ep.deleted = 0 ORDER BY ev.`event_date` DESC LIMIT 1) UNION ALL (SELECT ep.id FROM openeyes.`episode` ep WHERE ep.`patient_id` = $$_patient[1].id_$$ AND ep.deleted = 0 AND NOT EXISTS ( SELECT NULL FROM openeyes.`episode` ep2 JOIN openeyes.`event` ev2 ON ev2.`episode_id` = ep2.`id` WHERE ep2.`patient_id` = $$_patient[1].id_$$ AND ep2.deleted = 0) ORDER BY ep.`created_date` DESC LIMIT 1);'
+                        $$_SQL_$$: '(SELECT ep.id FROM openeyes.`episode` ep JOIN openeyes.`event` ev ON ev.`episode_id` = ep.`id` WHERE ep.`patient_id` = $$_patient[1].id_$$ AND ep.deleted = 0  AND (ep.change_tracker = 0 OR ep.change_tracker is null) ORDER BY ev.`event_date` DESC LIMIT 1) UNION ALL (SELECT ep.id FROM openeyes.`episode` ep WHERE ep.`patient_id` = $$_patient[1].id_$$ AND ep.deleted = 0  AND (ep.change_tracker = 0 OR ep.change_tracker is null) AND NOT EXISTS ( SELECT NULL FROM openeyes.`episode` ep2 JOIN openeyes.`event` ev2 ON ev2.`episode_id` = ep2.`id` WHERE ep2.`patient_id` = $$_patient[1].id_$$ AND ep2.deleted = 0) ORDER BY ep.`created_date` DESC LIMIT 1);'
                     }]
                 }]
             },
@@ -274,7 +274,8 @@ if (patientHasEpisodes(requestData.patientId)) {
                     "$$_CRUD_$$": "RETRIEVE",
                     "id": "$$_firm[1]_$$",
                     "service_subspecialty_assignment_id": "$$_service_subspecialty_assignment[1].id_$$",
-                     "name": defaultFirmName
+                     "name": defaultFirmName,
+                     "institution_id": institutionId
                 }]
             },
             {
